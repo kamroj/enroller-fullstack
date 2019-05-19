@@ -19,7 +19,7 @@ public class ParticipantRestController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
         Collection<Participant> participants = participantService.getAll();
-        return new ResponseEntity<Collection<Participant>>(participants, HttpStatus.OK);
+        return new ResponseEntity<>(participants, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -28,18 +28,21 @@ public class ParticipantRestController {
         if (participant == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Participant>(participant, HttpStatus.OK);
+        return new ResponseEntity<>(participant, HttpStatus.OK);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> addParticipant(@RequestBody Participant participant) {
         if (participantService.findByLogin(participant.getLogin()) != null) {
             return new ResponseEntity(
-                    "Unable to create. A participant with login " + participant.getLogin() + " already exist.",
+                    "Unable to create. A participant with login "
+                            + participant.getLogin() + " already exist.",
                     HttpStatus.CONFLICT);
         }
+        System.out.println("I am adding new participant");
+        System.out.println(participant.getLogin());
         participantService.add(participant);
-        return new ResponseEntity<Participant>(participant, HttpStatus.CREATED);
+        return new ResponseEntity<>(participant, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -58,7 +61,7 @@ public class ParticipantRestController {
         if (participantService.findByLogin(login) != null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        updatedParticipant.setLogin(login); // in case of login!=updatedParticipant.getLogin()
+        updatedParticipant.setLogin(login);
         participantService.update(updatedParticipant);
         return new ResponseEntity<Participant>(HttpStatus.NO_CONTENT);
     }

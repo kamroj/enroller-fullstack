@@ -24,10 +24,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    private AuthenticationManager authenticationManager;
     private final String secret;
     private final String issuer;
     private final int tokenExpiration;
+    private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, String secret, String issuer, int tokenExpiration) {
         super(new AntPathRequestMatcher("/api/tokens", HttpMethod.POST.name()));

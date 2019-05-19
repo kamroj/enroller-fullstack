@@ -5,18 +5,17 @@ import org.hibernate.Session;
 public class DatabaseConnector {
 
     protected static DatabaseConnector instance = null;
+    private Session session;
+
+    private DatabaseConnector() {
+        session = HibernateUtil.getSessionFactory().openSession();
+    }
 
     public static DatabaseConnector getInstance() {
         if (instance == null) {
             instance = new DatabaseConnector();
         }
         return instance;
-    }
-
-    private Session session;
-
-    private DatabaseConnector() {
-        session = HibernateUtil.getSessionFactory().openSession();
     }
 
     public void teardown() {

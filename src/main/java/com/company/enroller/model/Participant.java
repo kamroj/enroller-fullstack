@@ -11,18 +11,16 @@ import java.util.Set;
 @Table(name = "participant")
 public class Participant {
 
-    @Id
-    private String login;
-
-    @Column
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "meeting_participant", joinColumns = {
             @JoinColumn(name = "participant_login")}, inverseJoinColumns = {@JoinColumn(name = "meeting_id")})
     Set<Meeting> meetings = new HashSet<>();
+    @Id
+    private String login;
+    @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     public String getLogin() {
         return login;
